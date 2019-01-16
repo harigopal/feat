@@ -1,0 +1,3 @@
+module Feat
+  VERSION = '0.0.1'
+end
