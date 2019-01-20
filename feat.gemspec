@@ -15,4 +15,8 @@ Gem::Specification.new do |spec|
   spec.license     = 'MIT'
 
   spec.files = Dir['lib/**/*', 'LICENSE', 'README.md']
+
+  spec.add_runtime_dependency 'redis', '~> 4.0'
+
+  spec.add_development_dependency 'rspec', '~> 3.8'
 end

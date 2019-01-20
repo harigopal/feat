@@ -1,9 +1,6 @@
 module Feat
   class Configuration
-    attr_accessor :some_config
-
-    def initialize
-      @some_config = 'default_value'
-    end
+    attr_accessor :redis
+    attr_accessor :server
   end
 end

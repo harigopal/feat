@@ -1,2 +1,5 @@
 # IDE-specific.
 .idea/
+
+# RSpec persistence file.
+spec/examples.txt
