@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir['lib/**/*', 'LICENSE', 'README.md']
 
   spec.add_runtime_dependency 'redis', '~> 4.0'
+  spec.add_runtime_dependency 'connection_pool', '~> 2.2'
 
   spec.add_development_dependency 'rspec', '~> 3.8'
 end

@@ -1,3 +1,10 @@
+require 'redis'
+require 'connection_pool'
+
+require_relative 'feat/configuration'
+require_relative 'feat/cache'
+require_relative 'feat/uploader'
+
 module Feat
   class << self
     attr_accessor :configuration
@@ -8,23 +15,17 @@ module Feat
     end
 
     def perform(feat)
-      namespaced_feat = namespace_feat(feat)
-      redis.sadd('feat:record', namespaced_feat)
-      redis.incr(namespaced_feat)
+      Feat::Cache.new(feat).cache_to_redis
     end
 
     def record
-      Feat::Recorder.new(redis, configuration.server).execute
-    end
-
-    private
-
-    def namespace_feat(feat)
-      "feat:#{Time.now.utc.strftime('%Y%m%d')}:#{feat}"
+      Feat::Uploader.new.upload_to_server
     end
 
     def redis
-      @redis ||= Redis.new(configuration.redis)
+      @redis ||= ConnectionPool.new(configuration.connection_pool) do
+        Redis.new(configuration.redis)
+      end
     end
   end
 end
