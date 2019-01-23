@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'connection_pool', '~> 2.2'
 
   spec.add_development_dependency 'rspec', '~> 3.8'
+  spec.add_development_dependency 'webmock', '~> 3.5'
 end

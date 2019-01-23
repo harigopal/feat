@@ -15,7 +15,7 @@ module Feat
           {
             feat: record[:feat],
             date: record[:date],
-            count: conn.get(feat_record)
+            count: conn.get(feat_record).to_i
           }
         end
       end

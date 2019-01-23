@@ -6,7 +6,7 @@ module Feat
 
     def initialize
       @redis = {}
-      @server = { url: 'https://api.feathq.com/record' }
+      @server = { url: 'https://www.feathq.com/api/record' }
       @connection_pool = { size: 2, timeout: 2 }
     end
   end

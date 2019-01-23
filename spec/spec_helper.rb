@@ -1,3 +1,7 @@
+# Webmock, to detect and block external requests.
+require 'webmock/rspec'
+WebMock.disable_net_connect!
+
 require_relative '../lib/feat'
 
 RSpec.configure do |config|

@@ -2,35 +2,36 @@ require 'spec_helper'
 
 RSpec.describe Feat do
   before(:all) do
-    Feat.configure do |configuration|
-      configuration.redis = { host: 'localhost', post: 6379 }
-    end
+    Feat.configure { |_c| }
   end
 
-  before do
-    Redis.new.flushall
+  before(:each) do
+    redis.flushall
   end
 
-  describe '.perform' do
-    it 'caches feats to Redis' do
-      redis = Redis.new
+  let(:redis) { Redis.new }
+  let(:awesome_times) { rand(1..10) }
+  let(:meh_times) { rand(1..10) }
 
-      expect do
-        subject.perform(:awesome_feat)
-      end.to(change { redis.keys('feat*').count }.from(0).to(2))
+  it 'caches and uploads feats to FeatHQ' do
+    awesome_times.times { subject.perform(:awesome_feature) }
+    meh_times.times { subject.perform(:meh_feature) }
 
-      cached_feats = redis.smembers('feat:cache')
+    expected_date = Time.now.utc.strftime('%Y%m%d')
 
-      expect(cached_feats.count).to eq(1)
+    expected_body = [
+      { feat: :meh_feature, date: expected_date, count: meh_times },
+      { feat: :awesome_feature, date: expected_date, count: awesome_times }
+    ].to_json
 
-      key = "feat:#{Time.now.utc.strftime('%Y%m%d')}:awesome_feat"
-      expect(cached_feats.first).to eq(key)
+    stub_request(:post, 'https://www.feathq.com/api/record')
+      .with(
+        body: expected_body,
+        headers: {
+          'Content-Type' => 'application/json'
+        }
+      ).to_return(status: 200)
 
-      expect(redis.get(key)).to eq('1')
-
-      subject.perform(:awesome_feat)
-
-      expect(redis.get(key)).to eq('2')
-    end
+    subject.record
   end
 end
