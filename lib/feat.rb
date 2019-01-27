@@ -14,8 +14,9 @@ module Feat
       yield configuration
     end
 
-    def perform(feat)
-      Feat::Cache.new(feat).cache_to_redis
+    def perform(feat, **opts)
+      audience = opts[:for] || ''
+      Feat::Cache.new(feat, audience).cache_to_redis
     end
 
     def record

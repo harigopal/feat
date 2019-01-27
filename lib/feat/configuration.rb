@@ -3,6 +3,7 @@ module Feat
     attr_accessor :redis
     attr_accessor :server
     attr_accessor :connection_pool
+    attr_accessor :app_id
 
     def initialize
       @redis = {}
