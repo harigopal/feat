@@ -15,7 +15,7 @@ module Feat
     end
 
     def perform(feat, **opts)
-      audience = opts[:for] || ''
+      audience = opts[:for]
       Feat::Cache.new(feat, audience).cache_to_redis
     end
 

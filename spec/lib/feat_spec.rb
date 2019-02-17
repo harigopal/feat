@@ -37,14 +37,12 @@ RSpec.describe Feat do
     expected_body = {
       expected_date => {
         awesome_feature: {
-          '' => awesome_times,
-          awesome_user_ids[0] => 1,
-          awesome_user_ids[1] => 2,
+          performances: awesome_times + 3,
+          audience: awesome_user_ids.map(&:to_s)
         },
         meh_feature: {
-          '' => meh_times,
-          meh_user_ids[0] => 1,
-          meh_user_ids[1] => 2,
+          performances: meh_times + 3,
+          audience: meh_user_ids.map(&:to_s)
         }
       }
     }.to_json

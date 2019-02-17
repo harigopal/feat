@@ -8,8 +8,8 @@ module Feat
     def cache_to_redis
       Feat.redis.with do |conn|
         conn.sadd('feat:cached_dates', date)
-        conn.sadd("feat:feats_on_date:#{date}", @feat)
-        conn.hincrby("feat:#{namespaced_feat}", @audience, 1)
+        conn.hincrby("feat:feats_on_date:#{date}", @feat, 1)
+        conn.sadd("feat:audience:#{namespaced_feat}", @audience) if @audience
       end
     end
 
